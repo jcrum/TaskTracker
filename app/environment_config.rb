@@ -5,8 +5,20 @@ module EnvironmentConfig
   def self.registered(app)
     app.register Sinatra::ConfigFile
 
-    app.config_file File.join(File.dirname(__FILE__), '../config/config.yml')
-    app.config_file File.join(File.dirname(__FILE__), '../database/database.yml')
-  end 
+    environment = ENV['RACK_ENV'] || 'development'
+
+    app.configure :development do
+      app.set :host_authorization, { permitted_hosts: [] }
+    end
+
+    ['../config/config.yml',
+     '../database/database.yml',
+     "../config/environments/#{environment}.yml"].each do |f|
+
+      app.config_file File.join(File.dirname(__FILE__), f)
+  
+    end 
+
+  end # def self.registered
 
 end # module EnvironmentConfig
