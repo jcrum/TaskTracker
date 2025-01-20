@@ -7,3 +7,8 @@ gem 'puma'
 gem 'rspec'
 gem 'rack-test'
 gem 'rackup'
+
+
+gem 'sequel'
+gem 'sqlite3', group: :development
+

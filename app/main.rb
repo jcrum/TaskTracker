@@ -15,7 +15,7 @@ module Api
     end
 
     config_file File.join(File.dirname(__FILE__), '../config/config.yml')
-   
+    config_file File.join(File.dirname(__FILE__), '../config/db.yml') 
 
 
   end # end module Main
