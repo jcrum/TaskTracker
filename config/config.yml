@@ -1,0 +1,5 @@
+default: &default
+  app_name: TodoTracker
+
+development:
+  <<: *default
