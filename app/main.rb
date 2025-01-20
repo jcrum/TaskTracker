@@ -1,11 +1,11 @@
 require 'sinatra/base'
-require 'sinatra/config_file'
 
+require_relative 'environment_config'
 require_relative 'controllers/general'
 
 module Api
   class Main < ::Sinatra::Base
-    register Sinatra::ConfigFile
+    register EnvironmentConfig
 
     register Controllers::General
 
@@ -14,8 +14,6 @@ module Api
       set :host_authorization, { permitted_hosts: [] }
     end
 
-    config_file File.join(File.dirname(__FILE__), '../config/config.yml')
-    config_file File.join(File.dirname(__FILE__), '../config/db.yml') 
 
 
   end # end module Main
