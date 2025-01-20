@@ -1,9 +1,13 @@
 require 'sinatra/base'
 require 'sinatra/config_file'
 
+require_relative 'controllers/general'
+
 module Api
   class Main < ::Sinatra::Base
     register Sinatra::ConfigFile
+
+    register Controllers::General
 
 
     configure :development do
@@ -12,9 +16,7 @@ module Api
 
     config_file File.join(File.dirname(__FILE__), '../config/config.yml')
    
-    get '/' do
-      "Welcome to #{settings.app_name}"
-    end
+
 
   end # end module Main
 end # end module Api
