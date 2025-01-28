@@ -12,3 +12,4 @@ gem 'rackup'
 gem 'sequel'
 gem 'sqlite3', group: :development
 
+gem 'rubocop', group: :development
