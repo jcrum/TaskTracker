@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'sinatra/config_file'
+require 'semantic_logger'
 
 # Provides a means of configuring the application.
 # Place all one-off environment configurations into this module

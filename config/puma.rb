@@ -1,9 +1,17 @@
-def disconnect_database(message)
-  if defined?(DB)
-    puts message 
-    DB.disconnect if defined?(DB)
-  end
+require 'semantic_logger'
 
+SemanticLogger.default_level = :trace
+SemanticLogger.add_appender(io: $stdout, formatter: :color)
+
+def puma_log
+  SemanticLogger['puma']
+end
+
+def disconnect_database(message)
+  return unless defined?(DB)
+
+  puma_log.info message
+  DB.disconnect if defined?(DB)
 end
 
 # Specifies the `threads` directive to configure the minimum and maximum threads Puma will use.
@@ -24,17 +32,21 @@ environment ENV.fetch('RACK_ENV', 'development')
 db_initializer = File.expand_path('../database/database_initializer.rb', __dir__)
 
 # Preload the application for clustered mode.
-preload_app!
+# preload_app!
 
 on_worker_fork do
   disconnect_database('BEFORE FORK: Disconnecting database connection before forking.')
 end
 
 on_worker_boot do
-  puts 'AFTER FORK: Connecting database connection after forking.'
+  puma_log.info 'AFTER FORK: Connecting database connection after forking.'
   require db_initializer
+
+  SemanticLogger.reopen
 end
 
 at_exit do
   disconnect_database('ON EXIT: Disconnecting the database connection.')
 end
+
+log_requests true
