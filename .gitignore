@@ -1,8 +1,8 @@
 .bundle
+bin/
 .DS_Store
 .rbenv-gemsets
-
-
 *.db
-
 docker/secrets.sh
+*.log
+
