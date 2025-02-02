@@ -1,7 +1,6 @@
 require 'sequel'
 require 'yaml'
 
-
 config_file = File.join(File.dirname(__FILE__), './database.yml')
 config = YAML.load_file(config_file, aliases: true)
 
@@ -13,6 +12,3 @@ database_url = config[environment]['database_url']
 
 # Connect to the database
 DB = Sequel.connect(database_url)
-
-# Log connection for debugging
-puts "Connected to #{database_url} in #{environment} environment."

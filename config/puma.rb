@@ -1,7 +1,7 @@
 require 'semantic_logger'
 
 SemanticLogger.default_level = :trace
-SemanticLogger.add_appender(io: $stdout, formatter: :color)
+SemanticLogger.add_appender(file_name: 'logs/app.log', formatter: :color)
 
 def puma_log
   SemanticLogger['puma']
@@ -35,18 +35,19 @@ db_initializer = File.expand_path('../database/database_initializer.rb', __dir__
 # preload_app!
 
 on_worker_fork do
-  disconnect_database('BEFORE FORK: Disconnecting database connection before forking.')
+  SemanticLogger.repoen
+  disconnect_database('on_worker_fork: Disconnecting database connection before forking.')
 end
 
 on_worker_boot do
-  puma_log.info 'AFTER FORK: Connecting database connection after forking.'
-  require db_initializer
-
   SemanticLogger.reopen
+  puma_log.info 'on_worker_boot: Connecting database connection after forking.'
+  require db_initializer
+  puma_log.info 'on_worker_boot: Database Initiazed.'
 end
 
 at_exit do
-  disconnect_database('ON EXIT: Disconnecting the database connection.')
+  disconnect_database('at_ext: Disconnecting the database connection.')
 end
 
 log_requests true
