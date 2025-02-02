@@ -9,6 +9,10 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 
 gem 'sequel'
-gem 'sqlite3', group: :development
 
-gem 'rubocop', group: :development
+group :development do
+  gem 'guard'
+  gem 'guard-puma'
+  gem 'rubocop'
+  gem 'sqlite3'
+end
